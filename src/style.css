@@ -186,3 +186,18 @@ footer {
 .arrow {
   color: #ff7844;
 }
+
+@media (max-width: 600px) {
+
+  container, container-fluid {
+    justify-content: center;
+    text-align: center;
+  }
+ h3, .info, .button{
+   display: none;
+ }
+ .searchCity {
+   width: 120px;
+ }
+ 
+}
