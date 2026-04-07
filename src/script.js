@@ -105,6 +105,9 @@ function formatDay(timestamp) {
 
 function displayWeather(response) {
   celciusTemperature = response.data.main.temp;
+  maxTemperature = response.data.main.temp_max;
+minTemperature = response.data.main.temp_min;
+feelsLikeTemperature = response.data.main.feels_like;
 
   document.querySelector("#city").innerHTML = `${response.data.name},`;
   document.querySelector("#temperature").innerHTML = Math.round(celciusTemperature);
@@ -123,9 +126,7 @@ function displayWeather(response) {
   document.querySelector("#wind").innerHTML = `${Math.round(
     response.data.wind.speed
   )} m/s`;
-  document.querySelector("#feels-like").innerHTML = `${Math.round(
-    response.data.main.feels_like
-  )} °`;
+  document.querySelector("#feels-like").innerHTML = `${Math.round(feelsLikeTemperature)} °`;
   let iconElement = document.querySelector("#main-icon");
   iconElement.setAttribute(
     "src",
@@ -161,13 +162,26 @@ function searchLocation(position) {
 
 function convertToCelsius(event) {
   event.preventDefault();
-  let temperatureElement = document.querySelector("#temperature");
-  temperatureElement.innerHTML = Math.round(celciusTemperature);
+  isCelsius = true;
+
+  document.querySelector("#temperature").innerHTML = Math.round(celciusTemperature);
+  document.querySelector("#max").innerHTML = Math.ceil(maxTemperature);
+  document.querySelector("#min").innerHTML = Math.floor(minTemperature);
+  document.querySelector("#feels-like").innerHTML = `${Math.round(feelsLikeTemperature)} °`;
+
+  document.querySelector("#unit").innerHTML = "ºC";
 }
+
 function convertToFahrenheit(event) {
   event.preventDefault();
-  let temperatureElement = document.querySelector("#temperature");
-  temperatureElement.innerHTML = Math.round((celciusTemperature * 9) / 5 + 32);
+  isCelsius = false;
+
+  document.querySelector("#temperature").innerHTML = Math.round((celciusTemperature * 9) / 5 + 32);
+  document.querySelector("#max").innerHTML = Math.ceil((maxTemperature * 9) / 5 + 32);
+  document.querySelector("#min").innerHTML = Math.floor((minTemperature * 9) / 5 + 32);
+  document.querySelector("#feels-like").innerHTML = `${Math.round((feelsLikeTemperature * 9) / 5 + 32)} °`;
+
+  document.querySelector("#unit").innerHTML = "ºF";
 }
 let tempCelsius = document.querySelector("#celsius-link");
 let tempFahrenheit = document.querySelector("#fahrenheit-link");
@@ -176,6 +190,10 @@ tempCelsius.addEventListener("click", convertToCelsius);
 tempFahrenheit.addEventListener("click", convertToFahrenheit);
 
 let celciusTemperature = null;
+let maxTemperature = null;
+let minTemperature = null;
+let feelsLikeTemperature = null;
+let isCelsius = true;
 
 
 ///// Bonus
